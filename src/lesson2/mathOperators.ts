@@ -10,6 +10,11 @@ export const div: ScalarOperationType = (
   second: number
 ): number => first / second;
 
+export const mod: ScalarOperationType = (
+  first: number,
+  second: number
+): number => first % second;
+
 export const add: ScalarOperationType = (
   first: number,
   second: number
@@ -23,6 +28,7 @@ export const minus: ScalarOperationType = (
 export const mathOperators: { [key: string]: ScalarOperationType } = {
   "*": mul,
   "/": div,
+  "%": mod,
   "+": add,
   "-": minus,
 };
@@ -34,6 +40,7 @@ const [FIRST, SECOND] = mathPriorities;
 export const mathOperatorsPriorities: { [key: string]: number } = {
   "*": FIRST,
   "/": FIRST,
+  "%": FIRST,
   "+": SECOND,
   "-": SECOND,
 };

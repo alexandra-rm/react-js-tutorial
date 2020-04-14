@@ -5,6 +5,10 @@ describe("Parser correct cases", () => {
     expect(parser("1 + 32")).toEqual([1, "+", 32]);
   });
 
+  it("35 % 3", () => {
+    expect(parser("35 % 3")).toEqual([35, "%", 3]);
+  });
+
   it("11 + 3 * 22", () => {
     expect(parser("11 + 3 * 22")).toEqual([11, "+", 3, "*", 22]);
   });
