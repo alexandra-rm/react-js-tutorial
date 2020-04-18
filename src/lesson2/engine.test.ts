@@ -1,4 +1,65 @@
-import { firstPrioritiesCalc, secondPrioritiesCalc } from "./engine";
+import {
+  firstPrioritiesCalc,
+  secondPrioritiesCalc,
+  zerothPrioritiesCalc,
+} from "./engine";
+
+describe("zerothPrioritiesCalc simple cases", () => {
+  it("[1, ^, 32]", () => {
+    expect(zerothPrioritiesCalc([1, "^", 32])).toEqual([1]);
+  });
+
+  it("[32, ^, 0]", () => {
+    expect(zerothPrioritiesCalc([32, "^", 0])).toEqual([1]);
+  });
+
+  it("[2, ^, 4]", () => {
+    expect(zerothPrioritiesCalc([2, "^", 4])).toEqual([16]);
+  });
+
+  it("[32, ^, 1]", () => {
+    expect(zerothPrioritiesCalc([32, "^", 1])).toEqual([32]);
+  });
+
+  it("[32, +, 1]", () => {
+    expect(zerothPrioritiesCalc([32, "+", 1])).toEqual([32, "+", 1]);
+  });
+
+  it("[32, /, 1]", () => {
+    expect(zerothPrioritiesCalc([32, "/", 1])).toEqual([32, "/", 1]);
+  });
+});
+
+describe("zerothPrioritiesCalc mixed with first and second priorities cases", () => {
+  it("[32, /, 32, +, 10, *, 10]", () => {
+    expect(zerothPrioritiesCalc([32, "/", 32, "+", 10, "*", 10])).toEqual([
+      32,
+      "/",
+      32,
+      "+",
+      10,
+      "*",
+      10,
+    ]);
+  });
+  it("[2, ^, 3, -, 10, /, 10]", () => {
+    expect(zerothPrioritiesCalc([2, "^", 3, "-", 10, "/", 10])).toEqual([
+      8,
+      "-",
+      10,
+      "/",
+      10,
+    ]);
+  });
+});
+
+describe("firstPrioritiesCalc invalid cases", () => {
+  it("[32, ^, 32]", () => {
+    expect(() => secondPrioritiesCalc([32, "^", 32])).toThrow(
+      TypeError("Unexpected stack!")
+    );
+  });
+});
 
 describe("firstPrioritiesCalc simple cases", () => {
   it("[1, *, 32]", () => {
@@ -38,6 +99,12 @@ describe("firstPrioritiesCalc mixed with second priorities cases", () => {
 describe("secondPrioritiesCalc invalid cases", () => {
   it("[32, /, 32]", () => {
     expect(() => secondPrioritiesCalc([32, "/", 32])).toThrow(
+      TypeError("Unexpected stack!")
+    );
+  });
+
+  it("[32, ^, 32]", () => {
+    expect(() => secondPrioritiesCalc([32, "^", 32])).toThrow(
       TypeError("Unexpected stack!")
     );
   });

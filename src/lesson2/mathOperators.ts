@@ -1,41 +1,47 @@
-export type ScalarOperationType = (first: number, second: number) => number;
+export type BinaryOperationType = (first: number, second: number) => number;
 
-export const mul: ScalarOperationType = (
+export const pow: BinaryOperationType = (
+  first: number,
+  second: number
+): number => Math.pow(first, second);
+
+export const mul: BinaryOperationType = (
   first: number,
   second: number
 ): number => first * second;
 
-export const div: ScalarOperationType = (
+export const div: BinaryOperationType = (
   first: number,
   second: number
 ): number => first / second;
 
-export const mod: ScalarOperationType = (
+export const mod: BinaryOperationType = (
   first: number,
   second: number
 ): number => first % second;
 
-export const add: ScalarOperationType = (
+export const add: BinaryOperationType = (
   first: number,
   second: number
 ): number => first + second;
 
-export const minus: ScalarOperationType = (
+export const minus: BinaryOperationType = (
   first: number,
   second: number
 ): number => first - second;
 
-export const mathOperators: { [key: string]: ScalarOperationType } = {
+export const mathOperators: { [key: string]: BinaryOperationType } = {
   "*": mul,
   "/": div,
   "%": mod,
   "+": add,
   "-": minus,
+  "^": pow,
 };
 
-export const mathPriorities: number[] = [1, 2];
+export const mathPriorities: number[] = [0, 1, 2];
 
-const [FIRST, SECOND] = mathPriorities;
+const [ZEROTH, FIRST, SECOND] = mathPriorities;
 
 export const mathOperatorsPriorities: { [key: string]: number } = {
   "*": FIRST,
@@ -43,4 +49,5 @@ export const mathOperatorsPriorities: { [key: string]: number } = {
   "%": FIRST,
   "+": SECOND,
   "-": SECOND,
+  "^": ZEROTH,
 };
