@@ -1,12 +1,34 @@
 import { ParsedLineType } from "./parser";
 import { isNumber } from "./helpers";
 import {
-  mathOperators,
+  binaryOperators,
+  unaryOperators,
   mathPriorities,
   mathOperatorsPriorities,
 } from "./mathOperators";
 
-const [ZEROTH, FIRST, SECOND] = mathPriorities;
+const [UNARY_POSTFIX, ZEROTH, FIRST, SECOND] = mathPriorities;
+
+export const unaryPostfixPrioritiesCalc = (
+  stack: ParsedLineType
+): ParsedLineType =>
+  stack.reduce<ParsedLineType>((result, item) => {
+    const prevItem = result[result.length - 1];
+
+    if (
+      !isNumber(String(item)) &&
+      mathOperatorsPriorities[item] === UNARY_POSTFIX
+    ) {
+      if (!unaryOperators[item]) {
+        throw new TypeError("Unexpected stack!");
+      }
+      result = [...result.slice(0, -1), unaryOperators[item](Number(prevItem))];
+    } else {
+      result.push(item);
+    }
+
+    return result;
+  }, []);
 
 export const zerothPrioritiesCalc = (stack: ParsedLineType): ParsedLineType =>
   stack.reduce<ParsedLineType>((result, nextItem) => {
@@ -14,12 +36,12 @@ export const zerothPrioritiesCalc = (stack: ParsedLineType): ParsedLineType =>
     const item = result[result.length - 1];
 
     if (!isNumber(String(item)) && mathOperatorsPriorities[item] === ZEROTH) {
-      if (!mathOperators[item]) {
+      if (!binaryOperators[item]) {
         throw new TypeError("Unexpected stack!");
       }
       result = [
         ...result.slice(0, -2),
-        mathOperators[item](Number(prevItem), Number(nextItem)),
+        binaryOperators[item](Number(prevItem), Number(nextItem)),
       ];
     } else {
       result.push(nextItem);
@@ -37,12 +59,12 @@ export const firstPrioritiesCalc = (stack: ParsedLineType): ParsedLineType =>
       throw new TypeError("Unexpected stack!");
     }
     if (!isNumber(String(item)) && mathOperatorsPriorities[item] === FIRST) {
-      if (!mathOperators[item]) {
+      if (!binaryOperators[item]) {
         throw new TypeError("Unexpected stack!");
       }
       result = [
         ...result.slice(0, -2),
-        mathOperators[item](Number(prevItem), Number(nextItem)),
+        binaryOperators[item](Number(prevItem), Number(nextItem)),
       ];
     } else {
       result.push(nextItem);
@@ -63,7 +85,7 @@ export const secondPrioritiesCalc = (stack: ParsedLineType): number =>
     }
 
     if (!isNumber(String(item)) && mathOperatorsPriorities[item] === SECOND) {
-      result = mathOperators[item](Number(result), Number(nextItem));
+      result = binaryOperators[item](Number(result), Number(nextItem));
     }
 
     return result;

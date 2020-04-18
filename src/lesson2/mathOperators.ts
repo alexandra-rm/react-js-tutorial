@@ -30,7 +30,17 @@ export const minus: BinaryOperationType = (
   second: number
 ): number => first - second;
 
-export const mathOperators: { [key: string]: BinaryOperationType } = {
+export type UnaryOperationType = (operand: number) => number;
+
+export const factorial: UnaryOperationType = (operand: number): number =>
+  operand ? operand * factorial(operand - 1) : 1;
+
+export const square: UnaryOperationType = (operand: number): number =>
+  pow(operand, 2);
+
+export const binaryOperators: {
+  [key: string]: BinaryOperationType;
+} = {
   "*": mul,
   "/": div,
   "%": mod,
@@ -39,9 +49,16 @@ export const mathOperators: { [key: string]: BinaryOperationType } = {
   "^": pow,
 };
 
-export const mathPriorities: number[] = [0, 1, 2];
+export const unaryOperators: {
+  [key: string]: UnaryOperationType;
+} = {
+  "!": factorial,
+  "**": square,
+};
 
-const [ZEROTH, FIRST, SECOND] = mathPriorities;
+export const mathPriorities: number[] = [-1, 0, 1, 2];
+
+export const [UNARY_POSTFIX, ZEROTH, FIRST, SECOND] = mathPriorities;
 
 export const mathOperatorsPriorities: { [key: string]: number } = {
   "*": FIRST,
@@ -50,4 +67,6 @@ export const mathOperatorsPriorities: { [key: string]: number } = {
   "+": SECOND,
   "-": SECOND,
   "^": ZEROTH,
+  "!": UNARY_POSTFIX,
+  "**": UNARY_POSTFIX,
 };

@@ -1,4 +1,13 @@
-import { pow, mul, div, add, minus, mod } from "./mathOperators";
+import {
+  pow,
+  mul,
+  div,
+  add,
+  minus,
+  mod,
+  square,
+  factorial,
+} from "./mathOperators";
 
 describe("mathOperators test cases", () => {
   it("pow 2 ^ 3 to equal 8", () => {
@@ -39,5 +48,17 @@ describe("mathOperators test cases", () => {
 
   it("minus 4 - 2 to equal 2", () => {
     expect(minus(4, 2)).toBe(2);
+  });
+
+  it("square 4 ** to equal 16", () => {
+    expect(square(4)).toBe(16);
+  });
+
+  it("factorial 0 ! to equal 1", () => {
+    expect(factorial(0)).toBe(1);
+  });
+
+  it("factorial 5 ! to equal 120", () => {
+    expect(factorial(5)).toBe(120);
   });
 });

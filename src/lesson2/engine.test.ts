@@ -2,7 +2,34 @@ import {
   firstPrioritiesCalc,
   secondPrioritiesCalc,
   zerothPrioritiesCalc,
+  unaryPostfixPrioritiesCalc,
 } from "./engine";
+
+describe("unaryPostfixPrioritiesCalc simple cases", () => {
+  it("[5, **]", () => {
+    expect(unaryPostfixPrioritiesCalc([5, "**"])).toEqual([25]);
+  });
+
+  it("[5, !]", () => {
+    expect(unaryPostfixPrioritiesCalc([5, "!"])).toEqual([120]);
+  });
+
+  it("[3, !, **]", () => {
+    expect(unaryPostfixPrioritiesCalc([3, "!", "**"])).toEqual([36]);
+  });
+
+  it("[3, *, 5, ^, 7, +, 8]", () => {
+    expect(unaryPostfixPrioritiesCalc([3, "*", 5, "^", 7, "+", 8])).toEqual([
+      3,
+      "*",
+      5,
+      "^",
+      7,
+      "+",
+      8,
+    ]);
+  });
+});
 
 describe("zerothPrioritiesCalc simple cases", () => {
   it("[1, ^, 32]", () => {

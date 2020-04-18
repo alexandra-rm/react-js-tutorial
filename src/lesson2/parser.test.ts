@@ -1,6 +1,18 @@
 import { parser } from "./parser";
 
 describe("Parser correct cases", () => {
+  it("1 !", () => {
+    expect(parser("1 !")).toEqual([1, "!"]);
+  });
+
+  it("1 ! + 32", () => {
+    expect(parser("1 ! + 32")).toEqual([1, "!", "+", 32]);
+  });
+
+  it("2 ** ! + 32", () => {
+    expect(parser("2 ** ! + 32")).toEqual([2, "**", "!", "+", 32]);
+  });
+
   it("1 + 32", () => {
     expect(parser("1 + 32")).toEqual([1, "+", 32]);
   });
@@ -33,7 +45,9 @@ describe("Parser invalid cases", () => {
     expect(() => parser("^")).toThrow(TypeError("Unexpected string"));
   });
 
-  it("c", () => {
-    expect(() => parser("1 ! 33 - 2")).toThrow(TypeError("Unexpected string"));
+  it("1 + ! 33 - 2", () => {
+    expect(() => parser("1 + ! 33 - 2")).toThrow(
+      TypeError("Unexpected string")
+    );
   });
 });
