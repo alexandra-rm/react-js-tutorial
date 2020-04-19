@@ -7,6 +7,10 @@ import {
   mod,
   square,
   factorial,
+  sin,
+  cos,
+  tg,
+  ctg,
 } from "./mathOperators";
 
 describe("mathOperators test cases", () => {
@@ -60,5 +64,21 @@ describe("mathOperators test cases", () => {
 
   it("factorial 5 ! to equal 120", () => {
     expect(factorial(5)).toBe(120);
+  });
+
+  it("sin 0 to equal 0", () => {
+    expect(sin(0)).toBe(0);
+  });
+
+  it("cos 0 to equal 1", () => {
+    expect(cos(0)).toBe(1);
+  });
+
+  it("tg 30 to equal 0.58", () => {
+    expect(tg(30)).toBe(0.58);
+  });
+
+  it("ctg 90 to equal 0", () => {
+    expect(ctg(90)).toBe(0);
   });
 });

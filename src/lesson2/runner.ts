@@ -5,6 +5,7 @@ import {
   secondPrioritiesCalc,
   zerothPrioritiesCalc,
   unaryPostfixPrioritiesCalc,
+  unaryPrefixPrioritiesCalc,
 } from "./engine";
 
 export const runner = (line: string): number => {
@@ -14,7 +15,15 @@ export const runner = (line: string): number => {
     throw new TypeError("Unexpected string");
   }
 
-  const unaryPostfixPrioritiesRes = unaryPostfixPrioritiesCalc(stack);
+  const unaryPrefixPrioritiesRes = unaryPrefixPrioritiesCalc(stack);
+
+  if (unaryPrefixPrioritiesRes.length === 1) {
+    return Number(unaryPrefixPrioritiesRes[0]);
+  }
+
+  const unaryPostfixPrioritiesRes = unaryPostfixPrioritiesCalc(
+    unaryPrefixPrioritiesRes
+  );
 
   if (unaryPostfixPrioritiesRes.length === 1) {
     return Number(unaryPostfixPrioritiesRes[0]);

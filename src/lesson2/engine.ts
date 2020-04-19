@@ -7,7 +7,28 @@ import {
   mathOperatorsPriorities,
 } from "./mathOperators";
 
-const [UNARY_POSTFIX, ZEROTH, FIRST, SECOND] = mathPriorities;
+const [UNARY_PREFIX, UNARY_POSTFIX, ZEROTH, FIRST, SECOND] = mathPriorities;
+
+export const unaryPrefixPrioritiesCalc = (
+  stack: ParsedLineType
+): ParsedLineType =>
+  stack.reduce<ParsedLineType>((result, item) => {
+    const prevItem = result[result.length - 1];
+
+    if (
+      !isNumber(String(prevItem)) &&
+      mathOperatorsPriorities[prevItem] === UNARY_PREFIX
+    ) {
+      if (!unaryOperators[prevItem]) {
+        throw new TypeError("Unexpected stack!");
+      }
+      result = [...result.slice(0, -1), unaryOperators[prevItem](Number(item))];
+    } else {
+      result.push(item);
+    }
+
+    return result;
+  }, []);
 
 export const unaryPostfixPrioritiesCalc = (
   stack: ParsedLineType

@@ -3,7 +3,24 @@ import {
   secondPrioritiesCalc,
   zerothPrioritiesCalc,
   unaryPostfixPrioritiesCalc,
+  unaryPrefixPrioritiesCalc,
 } from "./engine";
+
+describe("unaryPrefixPrioritiesCalc simple cases", () => {
+  it("[sin, 0]", () => {
+    expect(unaryPrefixPrioritiesCalc(["sin", 0])).toEqual([0]);
+  });
+
+  it("[tg, 0]", () => {
+    expect(unaryPrefixPrioritiesCalc(["tg", 0])).toEqual([0]);
+  });
+
+  it("[3, *, 5, ^, 7, +, 8, !]", () => {
+    expect(
+      unaryPrefixPrioritiesCalc([3, "*", 5, "^", 7, "+", 8, "!"])
+    ).toEqual([3, "*", 5, "^", 7, "+", 8, "!"]);
+  });
+});
 
 describe("unaryPostfixPrioritiesCalc simple cases", () => {
   it("[5, **]", () => {

@@ -38,6 +38,18 @@ export const factorial: UnaryOperationType = (operand: number): number =>
 export const square: UnaryOperationType = (operand: number): number =>
   pow(operand, 2);
 
+export const sin: UnaryOperationType = (operand: number): number =>
+  parseFloat(Math.sin(operand * (Math.PI / 180)).toFixed(2));
+
+export const cos: UnaryOperationType = (operand: number): number =>
+  parseFloat(Math.cos(operand * (Math.PI / 180)).toFixed(2));
+
+export const tg: UnaryOperationType = (operand: number): number =>
+  parseFloat(Math.tan(operand * (Math.PI / 180)).toFixed(2));
+
+export const ctg: UnaryOperationType = (operand: number): number =>
+  parseFloat((cos(operand) / sin(operand)).toFixed(2));
+
 export const binaryOperators: {
   [key: string]: BinaryOperationType;
 } = {
@@ -54,11 +66,21 @@ export const unaryOperators: {
 } = {
   "!": factorial,
   "**": square,
+  sin: sin,
+  cos: cos,
+  tg: tg,
+  ctg: ctg,
 };
 
-export const mathPriorities: number[] = [-1, 0, 1, 2];
+export const mathPriorities: number[] = [-2, -1, 0, 1, 2];
 
-export const [UNARY_POSTFIX, ZEROTH, FIRST, SECOND] = mathPriorities;
+export const [
+  UNARY_PREFIX,
+  UNARY_POSTFIX,
+  ZEROTH,
+  FIRST,
+  SECOND,
+] = mathPriorities;
 
 export const mathOperatorsPriorities: { [key: string]: number } = {
   "*": FIRST,
@@ -69,4 +91,8 @@ export const mathOperatorsPriorities: { [key: string]: number } = {
   "^": ZEROTH,
   "!": UNARY_POSTFIX,
   "**": UNARY_POSTFIX,
+  sin: UNARY_PREFIX,
+  cos: UNARY_PREFIX,
+  tg: UNARY_PREFIX,
+  ctg: UNARY_PREFIX,
 };

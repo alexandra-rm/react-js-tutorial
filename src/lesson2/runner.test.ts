@@ -13,12 +13,24 @@ describe("Runner simple cases", () => {
     expect(runner("2 + 32")).toEqual(34);
   });
 
+  it("2 - 1", () => {
+    expect(runner("2 - 1")).toEqual(1);
+  });
+
   it("35 % 3", () => {
     expect(runner("35 % 3")).toEqual(2);
   });
 
   it("5 **", () => {
     expect(runner("5 **")).toEqual(25);
+  });
+
+  it("cos 0", () => {
+    expect(runner("cos 0")).toEqual(1);
+  });
+
+  it("ctg 90", () => {
+    expect(runner("ctg 90")).toEqual(0);
   });
 });
 
@@ -42,6 +54,14 @@ describe("Runner tripled/mixed cases", () => {
   it("2 ** !", () => {
     expect(runner("2 ** !")).toEqual(24);
   });
+
+  it("sin 0 !", () => {
+    expect(runner("sin 0 !")).toEqual(1);
+  });
+
+  it("sin 30 + cos 60", () => {
+    expect(runner("sin 30 + cos 60")).toEqual(1);
+  });
 });
 
 describe("Runner long cases", () => {
@@ -59,5 +79,9 @@ describe("Runner long cases", () => {
 
   it("2 + 5 ! / 120 - 5", () => {
     expect(runner("2 + 5 ! / 120 - 5")).toEqual(-2);
+  });
+
+  it("cos 0 * 2 + 5 ** / 25 - 5", () => {
+    expect(runner("cos 0 * 2 + 5 ** / 25 - 5")).toEqual(-2);
   });
 });
