@@ -1,8 +1,40 @@
 import { parser } from "./parser";
 
 describe("Parser correct cases", () => {
+  it("1 !", () => {
+    expect(parser("1 !")).toEqual([1, "!"]);
+  });
+
+  it("1 ! + 32", () => {
+    expect(parser("1 ! + 32")).toEqual([1, "!", "+", 32]);
+  });
+
+  it("sin 0 !", () => {
+    expect(parser("sin 0 !")).toEqual(["sin", 0, "!"]);
+  });
+
+  it("sin 0", () => {
+    expect(parser("sin 0")).toEqual(["sin", 0]);
+  });
+
+  it("1 + ctg 180", () => {
+    expect(parser("1 + ctg 180")).toEqual([1, "+", "ctg", 180]);
+  });
+
+  it("2 ** ! + 32", () => {
+    expect(parser("2 ** ! + 32")).toEqual([2, "**", "!", "+", 32]);
+  });
+
   it("1 + 32", () => {
     expect(parser("1 + 32")).toEqual([1, "+", 32]);
+  });
+
+  it("35 % 3", () => {
+    expect(parser("35 % 3")).toEqual([35, "%", 3]);
+  });
+
+  it("2 ^ 5", () => {
+    expect(parser("2 ^ 5")).toEqual([2, "^", 5]);
   });
 
   it("11 + 3 * 22", () => {
@@ -21,7 +53,29 @@ describe("Parser invalid cases", () => {
     );
   });
 
-  it("1 ! 33 - 2", () => {
-    expect(() => parser("1 ! 33 - 2")).toThrow(TypeError("Unexpected string"));
+  it("^", () => {
+    expect(() => parser("^")).toThrow(TypeError("Unexpected string"));
+  });
+
+  it("1 + ! 33 - 2", () => {
+    expect(() => parser("1 + ! 33 - 2")).toThrow(
+      TypeError("Unexpected string")
+    );
+  });
+
+  it("tg", () => {
+    expect(() => parser("tg")).toThrow(TypeError("Unexpected string"));
+  });
+
+  it("1 tg", () => {
+    expect(() => parser("1 tg")).toThrow(TypeError("Unexpected string"));
+  });
+
+  it("1 +", () => {
+    expect(() => parser("1 +")).toThrow(TypeError("Unexpected string"));
+  });
+
+  it("* 7", () => {
+    expect(() => parser("* 7")).toThrow(TypeError("Unexpected string"));
   });
 });

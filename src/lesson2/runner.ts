@@ -1,6 +1,12 @@
 import { parser } from "./parser";
 
-import { firstPrioritiesCalc, secondPrioritiesCalc } from "./engine";
+import {
+  firstPrioritiesCalc,
+  secondPrioritiesCalc,
+  zerothPrioritiesCalc,
+  unaryPostfixPrioritiesCalc,
+  unaryPrefixPrioritiesCalc,
+} from "./engine";
 
 export const runner = (line: string): number => {
   const stack = parser(line);
@@ -9,11 +15,15 @@ export const runner = (line: string): number => {
     throw new TypeError("Unexpected string");
   }
 
-  const firstPrioritiesRes = firstPrioritiesCalc(stack);
+  const unaryPrefixPrioritiesRes = unaryPrefixPrioritiesCalc(stack);
 
-  if (firstPrioritiesRes.length === 1) {
-    return Number(firstPrioritiesRes[0]);
-  }
+  const unaryPostfixPrioritiesRes = unaryPostfixPrioritiesCalc(
+    unaryPrefixPrioritiesRes
+  );
+
+  const zerothPrioritiesRes = zerothPrioritiesCalc(unaryPostfixPrioritiesRes);
+
+  const firstPrioritiesRes = firstPrioritiesCalc(zerothPrioritiesRes);
 
   return secondPrioritiesCalc(firstPrioritiesRes);
 };
