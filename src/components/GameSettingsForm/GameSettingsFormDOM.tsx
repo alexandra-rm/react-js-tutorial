@@ -5,34 +5,42 @@ const getInputValue = (form: HTMLFormElement, name: string): string => {
   return (form.querySelector(`[name=${name}]`) as HTMLInputElement).value;
 };
 
-const PlayerSubform: React.FC<{ playerNumber: number }> = ({
-  playerNumber,
+const playerFields = (target: any, playerNumber: number) => {
+  return {
+    name: getInputValue(target, `player${playerNumber}Name`),
+    symbol: getInputValue(target, `player${playerNumber}Symbol`),
+    color: getInputValue(target, `player${playerNumber}Color`),
+  };
+};
+
+const PlayerSubForm: React.FC<{ numberOfPlayer: number }> = ({
+  numberOfPlayer,
 }) => {
   return (
-    <label>
-      <legend>Player {playerNumber}</legend>
+    <fieldset>
+      <legend>MyPlayer {numberOfPlayer}</legend>
       <label>
         Name:
         <input
-          name={`player${playerNumber}Name`}
+          name={`player${numberOfPlayer}Name`}
           type="text"
-          placeholder={`Player ${playerNumber} name`}
+          placeholder={`Player ${numberOfPlayer} name`}
           required
         />
       </label>
       <label>
         Color:
-        <input type="color" name={`player${playerNumber}Color`} />
+        <input type="color" name={`player${numberOfPlayer}Color`} />
       </label>
       <label>
         Symbol:
-        <select name={`player${playerNumber}Symbol`} defaultValue="X">
+        <select name={`player${numberOfPlayer}Symbol`} defaultValue="X">
           <option>X</option>
           <option>Y</option>
           <option>O</option>
         </select>
       </label>
-    </label>
+    </fieldset>
   );
 };
 
@@ -44,16 +52,8 @@ export class GameSettingsFormDOM extends React.Component<
     ev.preventDefault();
     const target = ev.target as HTMLFormElement;
     this.props.onSubmit({
-      player1: {
-        name: getInputValue(target, "player1Name"),
-        symbol: getInputValue(target, "player1Symbol"),
-        color: getInputValue(target, "player1Color"),
-      },
-      player2: {
-        name: getInputValue(target, "player2Name"),
-        symbol: getInputValue(target, "player2Symbol"),
-        color: getInputValue(target, "player2Color"),
-      },
+      player1: playerFields(target, 1),
+      player2: playerFields(target, 2),
     });
   };
 
@@ -62,8 +62,8 @@ export class GameSettingsFormDOM extends React.Component<
       <form onSubmit={this.handleSubmit}>
         <fieldset>
           <legend>Game Settings</legend>
-          <PlayerSubform playerNumber={1} />
-          <PlayerSubform playerNumber={2} />
+          <PlayerSubForm numberOfPlayer={1} />
+          <PlayerSubForm numberOfPlayer={2} />
           <button>Start</button>
         </fieldset>
       </form>
